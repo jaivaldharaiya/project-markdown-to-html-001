@@ -1,36 +1,41 @@
-# Tabbed Markdown Viewer
+# Dynamic Markdown Renderer
 
-A simple, single-page web application that renders Markdown content into HTML. It features a tabbed interface allowing users to seamlessly switch between the formatted "Preview" and the raw "Markdown" source, with syntax highlighting for readability.
+## Summary
+
+This is a simple, single-page web application that renders Markdown content into HTML. It features a clean, tabbed interface allowing users to switch between the rendered HTML preview and the original Markdown source code. The application uses the `marked.js` library for conversion and `highlight.js` for syntax highlighting.
 
 ## Setup
 
-This project is a self-contained static HTML file with no build process required.
+This is a self-contained static HTML file with no build process or server required.
 
-1.  Save the provided code as `index.html`.
+1.  Save the provided HTML code as `index.html`.
 2.  Open the `index.html` file directly in your web browser.
 
 ## Usage
 
-Upon opening the application, you will see a container with two tabs:
+Upon loading the page, you will see the rendered HTML content in the "Preview" tab.
 
--   **Preview:** Displays the Markdown content rendered as styled HTML.
--   **Markdown:** Shows the original, raw Markdown source code with syntax highlighting.
-
-Click on a tab to switch between the two views.
+-   Click the **Preview** tab to view the final HTML output.
+-   Click the **Markdown** tab to view the original, syntax-highlighted Markdown source.
 
 ## Code Explanation
 
-The application is built within a single `index.html` file, containing the structure, styling, and logic.
+The application is built within a single `index.html` file, which includes all necessary HTML, CSS, and JavaScript.
 
--   **HTML (`<body>`)**: Defines the main structure, including the tab buttons (`#markdown-tabs`) and the content panels for the rendered output (`#markdown-output`) and the source code (`#markdown-source`).
--   **CSS (`<style>`)**: Embedded CSS handles the layout and styling of the container, tabs, and rendered Markdown content, aiming for a clean, modern look.
--   **JavaScript (`<script>`)**:
-    -   **Dependencies**: It relies on two external libraries loaded via CDN:
-        -   `marked.js`: To parse the Markdown string into HTML.
-        -   `highlight.js`: To provide syntax highlighting for code blocks within the rendered output and for the raw Markdown source view.
-    -   **Initialization**: On `DOMContentLoaded`, the script sets a hardcoded Markdown string.
-    -   **Rendering**: It uses `marked.parse()` to generate the HTML for the "Preview" tab and sets the `textContent` for the "Markdown" tab. `highlight.js` is configured to automatically style code blocks.
-    -   **Tab Logic**: An event listener on the tab container (`#markdown-tabs`) manages the UI by toggling `.active` classes on the buttons and content panels to show/hide the appropriate view.
+-   **HTML**: The structure consists of a main container (`.markdown-container`) which holds the tab buttons (`#markdown-tabs`) and the content panes for the rendered output (`#markdown-output`) and the source code (`#markdown-source`).
+
+-   **CSS**: All styling is embedded within a `<style>` block in the `<head>`. It provides a modern, responsive layout for the container, tabs, and rendered content, mimicking a familiar code editor or documentation style.
+
+-   **JavaScript**: The logic is contained in a `<script>` tag at the end of the `<body>`.
+    -   It uses a `DOMContentLoaded` event listener to ensure the script runs after the page is fully loaded.
+    -   A hardcoded Markdown string (`# Hello Jaival!...`) is used as the input.
+    -   It initializes `marked.js` and configures it to use `highlight.js` for syntax highlighting within code blocks.
+    -   The script populates both the preview and source tabs with the appropriate content upon loading.
+    -   An event listener on the tab container handles the logic for switching between the active tabs by toggling CSS classes.
+
+-   **Dependencies**: The project relies on two external libraries delivered via CDN:
+    -   [marked.js](https://marked.js.org/): For converting Markdown to HTML.
+    -   [highlight.js](https://highlightjs.org/): For syntax highlighting.
 
 ## License
 
