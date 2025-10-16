@@ -142,7 +142,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Content from the provided input.md attachment
-            const markdownInput = `# Hello World!\n\nThis is a test.`;
+            const markdownInput = `# Hello Jaival!\n\nThis is a test.`;
 
             const outputElement = document.getElementById('markdown-output');
             const sourceCodeElement = document.querySelector('#markdown-source code');
@@ -188,24 +188,26 @@
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
 
-            tabContainer.addEventListener('click', (e) => {
-                const clickedTab = e.target.closest('.tab-button');
-                if (!clickedTab) return; // Exit if click was not on a button
+            if (tabContainer) {
+                tabContainer.addEventListener('click', (e) => {
+                    const clickedTab = e.target.closest('.tab-button');
+                    if (!clickedTab) return; // Exit if click was not on a button
 
-                // Get the target content ID from the button's data attribute
-                const targetId = clickedTab.dataset.target;
-                const targetContent = document.getElementById(targetId);
+                    // Get the target content ID from the button's data attribute
+                    const targetId = clickedTab.dataset.target;
+                    const targetContent = document.getElementById(targetId);
 
-                // Deactivate all tabs and content
-                tabButtons.forEach(button => button.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
+                    // Deactivate all tabs and content
+                    tabButtons.forEach(button => button.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
 
-                // Activate the clicked tab and its corresponding content
-                clickedTab.classList.add('active');
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
-            });
+                    // Activate the clicked tab and its corresponding content
+                    clickedTab.classList.add('active');
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            }
         });
     </script>
 
