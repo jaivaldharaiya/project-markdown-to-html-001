@@ -19,16 +19,72 @@
             padding: 2rem;
         }
 
-        #markdown-output {
+        .markdown-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 2rem 3rem;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden; /* Contains the border-radius for child elements */
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        #markdown-tabs {
+            display: flex;
+            border-bottom: 1px solid #eaecef;
+            background-color: #f6f8fa;
+        }
+
+        .tab-button {
+            padding: 10px 16px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: inherit;
+            font-weight: 500;
+            color: #586069;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px; /* Overlaps container border for a seamless look */
+        }
+
+        .tab-button:hover {
+            color: #0366d6;
+        }
+
+        .tab-button.active {
+            color: #24292e;
+            font-weight: 600;
+            border-bottom-color: #f9826c;
+        }
+        
+        .tab-content {
+            display: none; /* Hide inactive tabs by default */
+        }
+
+        .tab-content.active {
+            display: block; /* Show the active tab content */
+        }
+
+        #markdown-output {
+            padding: 2rem 3rem;
+        }
+        
+        #markdown-source {
+            margin: 0; /* Reset default pre margin */
+            border-radius: 0;
+        }
+
+        #markdown-source code {
+            background-color: #f6f8fa !important;
+        }
+
+        /* Styling for rendered HTML content */
+        #markdown-output h1,
+        #markdown-output h2,
+        #markdown-output h3,
+        #markdown-output h4,
+        #markdown-output h5,
+        #markdown-output h6 {
             margin-top: 1.5em;
             margin-bottom: 0.5em;
             font-weight: 600;
@@ -36,11 +92,11 @@
             padding-bottom: 0.3em;
         }
 
-        h1 {
+        #markdown-output h1 {
             font-size: 2.25em;
         }
 
-        p {
+        #markdown-output p {
             margin-bottom: 1em;
         }
 
@@ -66,7 +122,15 @@
 <body>
 
     <main>
-        <div id="markdown-output"></div>
+        <div class="markdown-container">
+            <div id="markdown-tabs">
+                <button class="tab-button active" data-target="markdown-output">Preview</button>
+                <button class="tab-button" data-target="markdown-source">Markdown</button>
+            </div>
+            
+            <div id="markdown-output" class="tab-content active"></div>
+            <pre id="markdown-source" class="tab-content"><code class="language-markdown"></code></pre>
+        </div>
     </main>
 
     <!-- marked.js library for Markdown to HTML conversion -->
@@ -81,6 +145,7 @@
             const markdownInput = `# Hello World!\n\nThis is a test.`;
 
             const outputElement = document.getElementById('markdown-output');
+            const sourceCodeElement = document.querySelector('#markdown-source code');
 
             // Check if required libraries are loaded
             if (typeof marked === 'undefined' || typeof hljs === 'undefined') {
@@ -106,12 +171,41 @@
                 smartypants: false
             });
 
-            // Convert markdown to HTML and render it in the target element
-            if (outputElement) {
+            // Populate both the output and source elements
+            if (outputElement && sourceCodeElement) {
+                // 1. Convert markdown to HTML and render it in the output element
                 outputElement.innerHTML = marked.parse(markdownInput);
+
+                // 2. Put the raw markdown into the source element and highlight it
+                sourceCodeElement.textContent = markdownInput;
+                hljs.highlightElement(sourceCodeElement);
             } else {
-                console.error('Target element #markdown-output not found.');
+                console.error('Target element #markdown-output or #markdown-source not found.');
             }
+
+            // --- Tab Switching Logic ---
+            const tabContainer = document.getElementById('markdown-tabs');
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabContainer.addEventListener('click', (e) => {
+                const clickedTab = e.target.closest('.tab-button');
+                if (!clickedTab) return; // Exit if click was not on a button
+
+                // Get the target content ID from the button's data attribute
+                const targetId = clickedTab.dataset.target;
+                const targetContent = document.getElementById(targetId);
+
+                // Deactivate all tabs and content
+                tabButtons.forEach(button => button.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Activate the clicked tab and its corresponding content
+                clickedTab.classList.add('active');
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
         });
     </script>
 
