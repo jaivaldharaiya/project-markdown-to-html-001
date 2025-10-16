@@ -141,8 +141,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Content from the provided input.md attachment
-            const markdownInput = `# Hello Jaival!\n\nThis is a test.`;
+            // Markdown content. The H1 has been changed to "Hello Jaival!"
+            const markdownInput = `# Hello Jaival!\n\nThis is a demonstration of a Markdown renderer with synchronized tabs.\n\n### Features\n\n*   **Live Preview:** See your rendered HTML.\n*   **Source View:** Look at the original Markdown.\n*   **Syntax Highlighting:** Code blocks are highlighted using highlight.js.\n\n\`\`\`javascript\nfunction greet(name) {\n    console.log(\`Hello, \${name}!\`);\n}\n\ngreet('Developer');\n\`\`\``;
 
             const outputElement = document.getElementById('markdown-output');
             const sourceCodeElement = document.querySelector('#markdown-source code');
